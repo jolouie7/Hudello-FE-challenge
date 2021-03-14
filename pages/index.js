@@ -1,65 +1,113 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
+// Styles
+import "bootstrap/dist/css/bootstrap.min.css";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import { useState, useEffect } from 'react';
 
 export default function Home() {
+  const [questions, setQuestions] = useState([
+    "Hi, What's your name?",
+    "What's your favorite City?",
+  ]);
+  const [answers, setAnswers] = useState({
+    userName: "",
+    city: "",
+    selection: ""
+  })
+  const [submitInfoName, setSubmitInfoName] = useState("")
+  const [submitInfoCity, setSubmitInfoCity] = useState("")
+  const [submitInfoSelection, setSubmitInfoSelection] = useState("")
+  const [count, setCount] = useState(0)
+
+  const handleChange = (e) => {
+    console.log(e.target.name)
+    setAnswers((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleSubmitName = (e) => {
+    e.preventDefault();
+    const answer = answers.userName
+    setSubmitInfoName(answer);
+  };
+
+  const handleSubmitCity = (e) => {
+    e.preventDefault();
+    const answer = answers.city;
+    setSubmitInfoCity(answer);
+  };
+
+  const handleSubmitSelection = (e) => {
+    e.preventDefault();
+    const answer = answers.selection;
+    setSubmitInfoSelection(answer);
+  };
+
   return (
     <div className={styles.container}>
       <Head>
-        <title>Create Next App</title>
+        <title>Hudello FE Challenge</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+      <main>
+        <h1 className={styles.title}>Hudello FE Challenge</h1>
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
+        <Form onSubmit={handleSubmitName}>
+          <Form.Group>
+            <Form.Label>Hi, What's your name?</Form.Label>
+            <p>{submitInfoName}</p>
+            <Form.Control
+              type="text"
+              placeholder="Enter name"
+              name="userName"
+              value={answers.userName}
+              onChange={handleChange}
+            />
+            <Button variant="primary" type="submit">
+              Submit
+            </Button>
+          </Form.Group>
+        </Form>
 
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
+        <Form onSubmit={handleSubmitCity}>
+          <Form.Group>
+            <Form.Label>What's your favorite City?</Form.Label>
+            <p>{submitInfoCity}</p>
+            <Form.Control
+              type="text"
+              placeholder="Enter favorite city"
+              name="city"
+              value={answers.city}
+              onChange={handleChange}
+            />
+            <Button variant="primary" type="submit">
+              Submit
+            </Button>
+          </Form.Group>
+        </Form>
+        <Form onSubmit={handleSubmitSelection}>
+          <Form.Group>
+            <Form.Label>Which animal do you like best?</Form.Label>
             <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
+              {submitInfoSelection === "Select One" ? "" : submitInfoSelection}
             </p>
-          </a>
-        </div>
+            <Form.Control as="select" name="selection" onChange={handleChange}>
+              <option>Select One</option>
+              <option value="Cat">Cat</option>
+              <option value="Dog">Dog</option>
+              <option value="Bird">Bird</option>
+            </Form.Control>
+            <Button variant="primary" type="submit">
+              Submit
+            </Button>
+          </Form.Group>
+        </Form>
       </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
     </div>
-  )
+  );
 }
