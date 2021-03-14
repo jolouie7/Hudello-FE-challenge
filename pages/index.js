@@ -22,29 +22,48 @@ export default function Home() {
     console.log(e.target.name)
     setAnswers((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value,
+      [e.target.name]: capitalize(e.target.value),
     }));
+  };
+
+  const capitalize = (s) => {
+    return s[0].toUpperCase() + s.slice(1);
   };
 
   const handleSubmitName = (e) => {
     e.preventDefault();
     const answer = answers.userName
-    setSubmitInfoName(answer);
-    setCount(count + 1);
+    // input validation
+    if (answer.length < 3 || "") {
+      alert("Please enter a name that is valid and has 3 or more characters")
+    } else {
+      setSubmitInfoName(answer);
+      setCount(count + 1);
+    }
   };
 
   const handleSubmitCity = (e) => {
     e.preventDefault();
     const answer = answers.city;
-    setSubmitInfoCity(answer);
-    setCount(count + 1);
+    // input validation
+    if (answer.length < 3 || "") {
+      alert("Please enter a city that is valid and has 3 or more characters");
+    } else {
+      setSubmitInfoCity(answer);
+      setCount(count + 1);
+    }
   };
 
   const handleSubmitSelection = (e) => {
     e.preventDefault();
     const answer = answers.selection;
-    setSubmitInfoSelection(answer);
-    setCount(count + 1);
+    // input validation
+    if (answer === "") {
+      alert("Please select an option");
+    } else {
+      setSubmitInfoSelection(answer);
+      setCount(count + 1);
+    }
   };
 
   return (
@@ -79,6 +98,8 @@ export default function Home() {
         <Form onSubmit={handleSubmitCity}>
           <Form.Group>
             <Form.Label className={count >= 1 ? styles.show : styles.hide}>
+              Hi, <b>{answers.userName}</b>. Nice to meet you!{" "}
+              <br />
               What's your favorite City?
             </Form.Label>
             <p>{submitInfoCity}</p>
